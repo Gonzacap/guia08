@@ -181,9 +181,24 @@ public class Empleado {
 		
 	}
 	
-	public void finalizar(Integer idTarea,String fecha) {
+	public void finalizar(Integer idTarea,String fecha) throws TareaInexistenteException {
 		// busca la tarea en la lista de tareas asignadas 
 		// si la tarea no existe lanza una excepción
 		// si la tarea existe indica como fecha de finalizacion la fecha y hora actual
+		
+		Tarea t = this.tareasAsignadas.stream().filter(tarea->tarea.getId()==idTarea).findFirst().orElse(null);
+		
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("“dd-MM-yyyy HH:mm”");
+		LocalDateTime fechaInicio = LocalDateTime.parse(fecha, formato);
+		
+		if(t!=null) {
+			t.setFechaInicio(fechaInicio);
+		}else {
+			throw new TareaInexistenteException("Tarea Inexistente");
+		}
+		
 	}
+	
+	
+	
 }
