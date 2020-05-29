@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Empleado {
 
@@ -61,7 +62,19 @@ public class Empleado {
 		// cargar todas las tareas no facturadas
 		// calcular el costo
 		// marcarlas como facturadas.
-		return 0.0;
+		
+		double salario = 0;
+		
+		List<Tarea> tareasSinFacturar = this.tareasAsignadas.stream().filter(t -> t.getFacturada() == null).collect(Collectors.toList());
+		
+		for (Tarea t: tareasSinFacturar) {
+			
+			salario += this.calculoPagoPorTarea.apply(t);
+			t.setFacturada(true);
+		}
+
+		return salario;
+		
 	}
 	
 	/**
