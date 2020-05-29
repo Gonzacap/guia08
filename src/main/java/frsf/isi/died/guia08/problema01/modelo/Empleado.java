@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 public class Empleado {
 
-	public enum Tipo { CONTRATADO,EFECTIVO}; 
+	public enum Tipo { CONTRATADO,EFECTIVO}
 	
 	private Integer cuil;
 	private String nombre;
@@ -74,9 +74,40 @@ public class Empleado {
 		return 0.0;
 	}
 		
-	public Boolean asignarTarea(Tarea t) {
-		return false;
+	public Boolean asignarTarea(Tarea t) throws AsignacionIncorrectaException {
+		
+		if(t.getFechaFin()!=null) {
+			throw new AsignacionIncorrectaException("Aignacion incorrecta: la tarea ya ha finalizado");
+		}
+		if(t.getEmpleadoAsignado()!=null) {
+			throw new AsignacionIncorrectaException("Aignacion incorrecta: la tarea ya tiene un empleado asignado");
+		}
+		
+		Tipo contr = Tipo.CONTRATADO; 
+		Tipo ef = Tipo.EFECTIVO;
+		
+		if(this.tipo == contr && this.tareasAsignadas.size()<5) {
+			return true;
+		}
+		else if(this.tipo == ef && this.horasPendientes()<=15) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
+	
+	public Integer horasPendientes() {
+		
+		Integer sum = 0;
+		
+		for(Tarea unaTarea:this.tareasAsignadas) {
+			sum += unaTarea.getDuracionEstimada();
+		}
+		
+		return sum;		
+	}
+	
 	
 	public void comenzar(Integer idTarea) {
 		// busca la tarea en la lista de tareas asignadas 
