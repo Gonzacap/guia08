@@ -1,6 +1,7 @@
 package frsf.isi.died.guia08.problema01.modelo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -36,6 +37,10 @@ public class Empleado {
 		this.tipo = tipo;
 	}
 	
+	public void setCalculoPagoPorTarea(Function<Tarea, Double> calculoPagoPorTarea) {
+		this.calculoPagoPorTarea = calculoPagoPorTarea;
+	}
+	
 	public Integer getCuil() {
 		return this.cuil;
 	}
@@ -56,6 +61,10 @@ public class Empleado {
 		return this.tareasAsignadas;
 	}
 	
+	public Function<Tarea, Double> getCalculoPagoPorTarea() {
+		return calculoPagoPorTarea;
+	}
+	
 	//-------------------------------------
 	
 	public Double salario() {
@@ -65,7 +74,7 @@ public class Empleado {
 		
 		double salario = 0;
 		
-		List<Tarea> tareasSinFacturar = this.tareasAsignadas.stream().filter(t -> t.getFacturada() == null).collect(Collectors.toList());
+		List<Tarea> tareasSinFacturar = this.tareasAsignadas.parallelStream().filter(t -> t.getFacturada() == null).collect(Collectors.toList());
 		
 		for (Tarea t: tareasSinFacturar) {
 			
@@ -122,10 +131,20 @@ public class Empleado {
 	}
 	
 	
-	public void comenzar(Integer idTarea) {
+	public void comenzar(Integer idTarea) throws TareaInexistenteException{
 		// busca la tarea en la lista de tareas asignadas 
 		// si la tarea no existe lanza una excepción
 		// si la tarea existe indica como fecha de inicio la fecha y hora actual
+		
+		Tarea t = this.tareasAsignadas.stream().filter(tarea->tarea.getId()==idTarea).findFirst().orElse(null);
+		
+		if(t!=null) {
+			t.setFechaInicio(LocalDateTime.now());
+		}else {
+			throw new TareaInexistenteException("Tarea Inexistente");
+		}
+		
+		
 	}
 	
 	public void finalizar(Integer idTarea) {
