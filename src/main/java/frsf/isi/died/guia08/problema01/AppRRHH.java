@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 import frsf.isi.died.guia08.problema01.modelo.Empleado;
 import frsf.isi.died.guia08.problema01.modelo.Tarea;
+import frsf.isi.died.guia08.problema01.modelo.Empleado.Tipo;
 
 public class AppRRHH {
 
@@ -16,6 +17,12 @@ public class AppRRHH {
 	public void agregarEmpleadoContratado(Integer cuil,String nombre,Double costoHora) {
 		// crear un empleado
 		// agregarlo a la lista
+		
+		Tipo contr = Tipo.CONTRATADO;
+		
+		Empleado nuevoEmpleado = new Empleado(cuil , nombre, costoHora, contr);
+		
+		this.empleados.add(nuevoEmpleado);
 	}
 	
 	public void agregarEmpleadoEfectivo(Integer cuil,String nombre,Double costoHora) {

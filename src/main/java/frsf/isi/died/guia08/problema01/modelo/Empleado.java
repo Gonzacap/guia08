@@ -24,10 +24,11 @@ public class Empleado {
 	
 	//constructor--------------------------
 	
-	public Empleado(Integer cuil,String nombre,Double costoHora) {
+	public Empleado(Integer cuil, String nombre, Double costoHora, Tipo tipo) {
 		this.cuil = cuil;
 		this.nombre = nombre;
 		this.costoHora = costoHora;
+		this.tipo = tipo;
 	}
 	
 	//-------------------------------------
