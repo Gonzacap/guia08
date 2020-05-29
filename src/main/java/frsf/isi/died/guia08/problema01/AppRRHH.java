@@ -28,6 +28,12 @@ public class AppRRHH {
 	public void agregarEmpleadoEfectivo(Integer cuil,String nombre,Double costoHora) {
 		// crear un empleado
 		// agregarlo a la lista		
+		
+		Tipo contr = Tipo.EFECTIVO;
+		
+		Empleado nuevoEmpleado = new Empleado(cuil , nombre, costoHora, contr);
+		
+		this.empleados.add(nuevoEmpleado);
 	}
 	
 	public void asignarTarea(Integer cuil,Integer idTarea,String descripcion,Integer duracionEstimada) {
