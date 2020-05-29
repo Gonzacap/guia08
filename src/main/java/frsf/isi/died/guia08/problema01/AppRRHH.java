@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import frsf.isi.died.guia08.problema01.modelo.AsignacionIncorrectaException;
 import frsf.isi.died.guia08.problema01.modelo.Empleado;
 import frsf.isi.died.guia08.problema01.modelo.Tarea;
+import frsf.isi.died.guia08.problema01.modelo.TareaInexistenteException;
 import frsf.isi.died.guia08.problema01.modelo.Empleado.Tipo;
 
 public class AppRRHH {
@@ -36,10 +39,24 @@ public class AppRRHH {
 		this.empleados.add(nuevoEmpleado);
 	}
 	
-	public void asignarTarea(Integer cuil,Integer idTarea,String descripcion,Integer duracionEstimada) {
+	public void asignarTarea(Integer cuil,Integer idTarea,String descripcion,Integer duracionEstimada) throws AsignacionIncorrectaException {
 		// crear un empleado
 		// con el método buscarEmpleado() de esta clase
-		// agregarlo a la lista		
+		// agregarlo a la lista	
+				
+		Empleado emp = this.empleados.stream().filter(empleado->empleado.getCuil() == cuil).findFirst().orElse(null);
+		
+		if(emp!=null) {
+			
+			Tarea nuevaTarea = new Tarea(idTarea, descripcion, duracionEstimada);
+			
+			nuevaTarea.asignarEmpleado(emp);
+			
+		}
+		else {
+			throw new AsignacionIncorrectaException("Empleado no encontrado");
+		}
+
 	}
 	
 	public void empezarTarea(Integer cuil,Integer idTarea) {

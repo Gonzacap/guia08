@@ -15,13 +15,11 @@ public class Tarea {
 
 	//constructor--------------------------
 	
-	public Tarea(Integer id, String descripcion, Integer duracionEstimada, Empleado empleadoAsignado){
+	public Tarea(Integer id, String descripcion, Integer duracionEstimada){
 		this.id = id;
 		this.descripcion = descripcion;
 		this.duracionEstimada = duracionEstimada;
 		//this.empleadoAsignado = empleadoAsignado;
-		
-		//this.asignarEmpleado(empleadoAsignado);
 	}
 	
 	//-------------------------------------
