@@ -1,6 +1,9 @@
 package frsf.isi.died.guia08.problema01.modelo;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import frsf.isi.died.guia08.problema01.modelo.Empleado.Tipo;
 
 public class Tarea {
 
@@ -12,10 +15,27 @@ public class Tarea {
 	private LocalDateTime fechaFin;
 	private Boolean facturada;
 	
+
+	//constructor--------------------------
+	
+	public Tarea(Integer id, String descripcion, Integer duracionEstimada, Empleado empleadoAsignado){
+		this.id = id;
+		this.descripcion = descripcion;
+		this.duracionEstimada = duracionEstimada;
+		this.empleadoAsignado = empleadoAsignado;
+	}
+	
+	//-------------------------------------
+	
+	
+	
 	public void asignarEmpleado(Empleado e) {
 		// si la tarea ya tiene un empleado asignado
 		// y tiene fecha de finalizado debe lanzar una excepcion
 	}
+	
+	
+	//getters y setters--------------------
 
 	public Integer getId() {
 		return id;
@@ -68,6 +88,8 @@ public class Tarea {
 	public Empleado getEmpleadoAsignado() {
 		return empleadoAsignado;
 	}
+	
+	//-------------------------------------
 	
 	
 }

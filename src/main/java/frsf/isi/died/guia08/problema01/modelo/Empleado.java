@@ -19,6 +19,44 @@ public class Empleado {
 	private Predicate<Tarea> puedeAsignarTarea;
 
 	
+	//constructor--------------------------
+	
+	public Empleado(Integer cuil,String nombre,Double costoHora) {
+		this.cuil = cuil;
+		this.nombre = nombre;
+		this.costoHora = costoHora;
+	}
+	
+	//-------------------------------------
+	
+	//getters y setters--------------------
+	
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+	
+	public Integer getCuil() {
+		return this.cuil;
+	}
+	
+	public String getNombre() {
+		return this.nombre;
+	}
+	
+	public Tipo getTipo() {
+		return this.tipo;
+	}
+	
+	public Double getCostoHora() {
+		return this.costoHora;
+	}
+	
+	public List<Tarea> getTareas() {
+		return this.tareasAsignadas;
+	}
+	
+	//-------------------------------------
+	
 	public Double salario() {
 		// cargar todas las tareas no facturadas
 		// calcular el costo
