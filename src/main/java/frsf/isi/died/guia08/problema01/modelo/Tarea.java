@@ -1,9 +1,6 @@
 package frsf.isi.died.guia08.problema01.modelo;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import frsf.isi.died.guia08.problema01.modelo.Empleado.Tipo;
 
 public class Tarea {
 
@@ -22,16 +19,27 @@ public class Tarea {
 		this.id = id;
 		this.descripcion = descripcion;
 		this.duracionEstimada = duracionEstimada;
-		this.empleadoAsignado = empleadoAsignado;
+		//this.empleadoAsignado = empleadoAsignado;
+		
+		//this.asignarEmpleado(empleadoAsignado);
 	}
 	
 	//-------------------------------------
 	
 	
 	
-	public void asignarEmpleado(Empleado e) {
+	public void asignarEmpleado(Empleado e) throws AsignacionIncorrectaException {
 		// si la tarea ya tiene un empleado asignado
 		// y tiene fecha de finalizado debe lanzar una excepcion
+		
+		if(this.getFechaFin()!=null) {
+			throw new AsignacionIncorrectaException("Aignacion incorrecta: la tarea ya ha finalizado");
+		}
+		if(this.getEmpleadoAsignado()!=null) {
+			throw new AsignacionIncorrectaException("Aignacion incorrecta: la tarea ya tiene un empleado asignado");
+		}
+		this.empleadoAsignado = e;
+		
 	}
 	
 	
