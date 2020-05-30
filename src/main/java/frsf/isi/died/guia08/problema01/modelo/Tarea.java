@@ -95,6 +95,11 @@ public class Tarea {
 		return empleadoAsignado;
 	}
 	
+	public String getInfo () {
+		return this.id.toString()+";"+this.descripcion+";"+this.duracionEstimada.toString()+";"+
+				this.empleadoAsignado.getCuil()+";"+this.empleadoAsignado.getNombre();
+	}
+	
 	//-------------------------------------
 	
 	

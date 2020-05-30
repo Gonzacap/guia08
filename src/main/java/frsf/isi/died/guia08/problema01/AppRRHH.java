@@ -2,22 +2,22 @@ package frsf.isi.died.guia08.problema01;
 
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import frsf.isi.died.guia08.problema01.modelo.AsignacionIncorrectaException;
 import frsf.isi.died.guia08.problema01.modelo.Empleado;
+import frsf.isi.died.guia08.problema01.modelo.Empleado.Tipo;
 import frsf.isi.died.guia08.problema01.modelo.Tarea;
 import frsf.isi.died.guia08.problema01.modelo.TareaInexistenteException;
-import frsf.isi.died.guia08.problema01.modelo.Empleado.Tipo;
 
 public class AppRRHH {
 
@@ -173,17 +173,41 @@ public class AppRRHH {
 		
 	}
 	
-	private void guardarTareasTerminadasCSV() {
+	private void guardarTareasTerminadasCSV() throws IOException {
 		// guarda una lista con los datos de la tarea que fueron terminadas
 		// y todavía no fueron facturadas
 		// y el nombre y cuil del empleado que la finalizó en formato CSV 
+		
+		for(Empleado emp : this.empleados){
+			
+			for(Tarea t: emp.getTareas()){
+				
+				if(t.getFacturada() == null && t.getFechaFin() != null){
+					
+					try(Writer fileWriter= new FileWriter("Tareas Terminadas Sin Facturar.csv")) {
+						
+						try(BufferedWriter out = new BufferedWriter(fileWriter)){
+							
+							out.write(t.getInfo() + System.getProperty("line.separator"));
+							
+						} catch(IOException e){
+							System.out.println(e.getMessage());
+						}
+						
+					} catch(IOException e){
+						System.out.println(e.getMessage());
+					}
+				}
+			}
+		}
+		
 	}
 	
 	private Optional<Empleado> buscarEmpleado(Predicate<Empleado> p){
 		return this.empleados.stream().filter(p).findFirst();
 	}
 
-	public Double facturar() {
+	public Double facturar() throws IOException {
 		this.guardarTareasTerminadasCSV();
 		return this.empleados.stream()				
 				.mapToDouble(e -> e.salario())
