@@ -1,6 +1,12 @@
 package frsf.isi.died.guia08.problema01;
 
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -59,25 +65,77 @@ public class AppRRHH {
 
 	}
 	
-	public void empezarTarea(Integer cuil,Integer idTarea) {
+	public void empezarTarea(Integer cuil,Integer idTarea) throws AsignacionIncorrectaException, TareaInexistenteException {
 		// busca el empleado por cuil en la lista de empleados
 		// con el método buscarEmpleado() actual de esta clase
 		// e invoca al método comenzar tarea
+		
+		
+		Optional<Empleado> emp = this.buscarEmpleado(e -> e.getCuil() == cuil);
+
+		if (emp.isPresent()) {
+			emp.get().comenzar(idTarea);
+			
+		} else {
+			throw new AsignacionIncorrectaException("Empleado no encontrado");
+		}
+		
 	}
 	
-	public void terminarTarea(Integer cuil,Integer idTarea) {
+	public void terminarTarea(Integer cuil,Integer idTarea) throws AsignacionIncorrectaException, TareaInexistenteException {
 		// crear un empleado
-		// agregarlo a la lista		
+		// agregarlo a la lista	
+		
+		Optional<Empleado> emp = this.buscarEmpleado(e -> e.getCuil() == cuil);
+
+		if (emp.isPresent()) {
+			emp.get().finalizar(idTarea);
+			
+		} else {
+			throw new AsignacionIncorrectaException("Empleado no encontrado");
+		}
+		
 	}
 
-	public void cargarEmpleadosContratadosCSV(String nombreArchivo) {
+	public void cargarEmpleadosContratadosCSV(String nombreArchivo) throws FileNotFoundException, IOException {
 		// leer datos del archivo
 		// por cada fila invocar a agregarEmpleadoContratado
+		
+		
+		try (Reader fileReader = new FileReader(nombreArchivo)) {
+			
+			try (BufferedReader in = new BufferedReader(fileReader)) {
+				String linea = null;
+				
+				while ((linea = in.readLine()) != null) {
+					String[] fila = linea.split(";");
+					
+					this.agregarEmpleadoContratado(Integer.valueOf(fila[0]), String.valueOf(fila[1]), Double.valueOf(fila[2]));
+				}
+			}
+		}
+		
 	}
 
-	public void cargarEmpleadosEfectivosCSV(String nombreArchivo) {
+	public void cargarEmpleadosEfectivosCSV(String nombreArchivo) throws FileNotFoundException, IOException {
 		// leer datos del archivo
-		// por cada fila invocar a agregarEmpleadoContratado		
+		// por cada fila invocar a agregarEmpleadoContratado	
+		
+		try (Reader fileReader = new FileReader(nombreArchivo)) {
+			
+			try (BufferedReader in = new BufferedReader(fileReader)) {
+				String linea = null;
+				
+				while ((linea = in.readLine()) != null) {
+					String[] fila = linea.split(";");
+					
+					this.agregarEmpleadoEfectivo(Integer.valueOf(fila[0]), String.valueOf(fila[1]), Double.valueOf(fila[2]));
+						
+				}
+			}
+		}
+		
+		
 	}
 
 	public void cargarTareasCSV(String nombreArchivo) {
