@@ -39,6 +39,10 @@ public class Empleado {
 		this.tipo = tipo;
 	}
 	
+	public void setTarea(Tarea t) {
+		this.tareasAsignadas.add(t);
+	}
+	
 	public void setCalculoPagoPorTarea(Function<Tarea, Double> calculoPagoPorTarea) {
 		this.calculoPagoPorTarea = calculoPagoPorTarea;
 	}
