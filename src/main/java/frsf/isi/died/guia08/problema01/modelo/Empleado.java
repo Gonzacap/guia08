@@ -29,6 +29,34 @@ public class Empleado {
 		this.nombre = nombre;
 		this.costoHora = costoHora;
 		this.tipo = tipo;
+		
+		this.calculoPagoPorTarea = (t) -> {
+			double costo=0;
+
+			int horasTareaRealizada = (t.getFechaFin().getDayOfMonth() - t.getFechaFin().getDayOfMonth()) * 4;
+
+			if (horasTareaRealizada < t.getDuracionEstimada()) {
+				if (this.tipo == Tipo.EFECTIVO) {
+					 costo = t.getEmpleadoAsignado().getCostoHora() * 1.3;
+				}
+				if (this.tipo == Tipo.CONTRATADO) {
+					 costo = t.getEmpleadoAsignado().getCostoHora() * 1.2;
+				}
+			} else {
+				if( this.tipo == Tipo.CONTRATADO && (horasTareaRealizada - t.getDuracionEstimada()) > 2 ) {
+					
+					costo= t.getEmpleadoAsignado().getCostoHora() * 0.75;
+				}
+				else {
+					costo = t.getEmpleadoAsignado().getCostoHora();
+				}
+			}
+
+			return  horasTareaRealizada * costo;
+			
+			
+		};
+		
 	}
 	
 	//-------------------------------------
