@@ -112,7 +112,13 @@ public class AppRRHH {
 					
 					this.agregarEmpleadoContratado(Integer.valueOf(fila[0]), String.valueOf(fila[1]), Double.valueOf(fila[2]));
 				}
+				
+			} catch(IOException e2) {
+				System.out.println(e2.getMessage());
 			}
+			
+		} catch(FileNotFoundException e1) {
+			System.out.println(e1.getMessage());
 		}
 		
 	}
@@ -129,19 +135,42 @@ public class AppRRHH {
 				while ((linea = in.readLine()) != null) {
 					String[] fila = linea.split(";");
 					
-					this.agregarEmpleadoEfectivo(Integer.valueOf(fila[0]), String.valueOf(fila[1]), Double.valueOf(fila[2]));
+					this.agregarEmpleadoEfectivo(Integer.valueOf(fila[0]), String.valueOf(fila[1]), Double.valueOf(fila[2]));		
+				}
+				
+			} catch(IOException e2) {
+				System.out.println(e2.getMessage());
+			}
+			
+			
+		} catch(FileNotFoundException e1) {
+			System.out.println(e1.getMessage());
+		}
+		
+	}
+
+	public void cargarTareasCSV(String nombreArchivo) throws FileNotFoundException, IOException, NumberFormatException, AsignacionIncorrectaException {
+		// leer datos del archivo
+		// cada fila del archivo tendrá:
+		// cuil del empleado asignado, numero de la taera, descripcion y duración estimada en horas.
+				
+		
+		try (Reader fileReader = new FileReader(nombreArchivo)) {
+			
+			try (BufferedReader in = new BufferedReader(fileReader)) {
+				String linea = null;
+				
+				while ((linea = in.readLine()) != null) {
+					String[] fila = linea.split(";");
+					
+					//asignarTarea(cuil, idtarea, desc, durcion)
+					this.asignarTarea(Integer.valueOf(fila[0]), Integer.valueOf(fila[1]), String.valueOf(fila[2]), Integer.valueOf(fila[3]));
 						
 				}
 			}
 		}
 		
 		
-	}
-
-	public void cargarTareasCSV(String nombreArchivo) {
-		// leer datos del archivo
-		// cada fila del archivo tendrá:
-		// cuil del empleado asignado, numero de la taera, descripcion y duración estimada en horas.
 	}
 	
 	private void guardarTareasTerminadasCSV() {
